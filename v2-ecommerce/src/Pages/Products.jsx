@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./Products.css";
+import ProductCard from "../Components/ProductCard";
 
 export default function Products() {
-    //create a state variable and a function to update that variable.
+  //create a state variable and a function to update that variable.
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-//a hook that allows you to perform side effects in your functional components
+  //a hook that allows you to perform side effects in your functional components
   useEffect(() => {
-    fetch("http://localhost:3309/api/products")
+    fetch("http://localhost:3308/api/products")
       .then((response) => response.json())
       .then((data) => {
         setProducts(data);
@@ -33,7 +34,7 @@ export default function Products() {
     }
   };
 
-//  buttons to filter and display a list of products by category, showing each product's image, name, description, and price.
+  //  buttons to filter and display a list of products by category, showing each product's image, name, description, and price.
   return (
     <div className="container">
       <div id="buttons">
@@ -54,16 +55,13 @@ export default function Products() {
         </button>
       </div>
 
-      <div className="products">
-        {filteredProducts.map((product) => (
-          <div className="product-card" key={product.id}>
-            <img src={`${product.photo}`} alt={product.name} />
-            <h3>{product.name}</h3>
-            <p>{product.description}</p>
-            <p>Price: ${product.price}</p>
-          </div>
-        ))}
-      </div>
+      {
+        <div className="products">
+          {filteredProducts.map((product) => (
+            <ProductCard product={product} />
+          ))}
+        </div>
+      }
     </div>
   );
 }
